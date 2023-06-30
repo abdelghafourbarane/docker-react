@@ -1,0 +1,22 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+stages:
+  - build
+  - test
+
+before_script:
+  - docker info
+
+build:
+  stage: build
+  script:
+    - docker build -t abdelghafourbarane/docker-react -f Dockerfile.dev .
+    - docker push abdelghafourbarane/docker-react
+
+test:
+  stage: test
+  script:
+    - docker run abdelghafourbarane/docker-react npm test
